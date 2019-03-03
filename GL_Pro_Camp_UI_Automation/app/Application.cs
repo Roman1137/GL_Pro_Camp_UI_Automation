@@ -9,11 +9,16 @@ namespace GL_Pro_Camp_UI_Automation.app
 {
     public class Application
     {
-        public EventFiringWebDriver driver;
+        public EventFiringWebDriver driver { get; }
+        public ConfigManager ConfigManager { get; set; }
 
         public Application()
         {
+            this.ConfigManager = new ConfigManager();
+
             this.driver = new EventFiringWebDriver(new ChromeDriver());
+            this.driver.Manage().Window.Maximize();
+
 
             this.InitializeWebdriverEvents();
         }
@@ -48,7 +53,7 @@ namespace GL_Pro_Camp_UI_Automation.app
             }
         }
 
-        public void InitializeWebdriverEvents()
+        private void InitializeWebdriverEvents()
         {
             driver.FindingElement += (sender, args) => Console.WriteLine($"Looking for elemet {args.FindMethod}");
             driver.FindElementCompleted += (sender, args) => Console.WriteLine($"Element {args.FindMethod} was found");
