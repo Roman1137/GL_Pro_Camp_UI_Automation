@@ -1,5 +1,6 @@
 ﻿using System;
 using GL_Pro_Camp_UI_Automation.pages;
+using GL_Pro_Camp_UI_Automation.pages.addNewProduct;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
@@ -21,6 +22,8 @@ namespace GL_Pro_Camp_UI_Automation.app
         public ProductPage ProductPage { get; set; }
         public UsersMainPage UsersMainPage { get; set; }
         public CartTab CartTab { get; set; }
+        public CatalogTab CatalogTab { get; set; }
+        public AddNewProductPage AddNewProductPage { get; set; }
 
         public Application()
         {
@@ -42,6 +45,8 @@ namespace GL_Pro_Camp_UI_Automation.app
             this.ProductPage = new ProductPage(this);
             this.UsersMainPage = new UsersMainPage(this);
             this.CartTab = new CartTab(this);
+            this.CatalogTab = new CatalogTab(this);
+            this.AddNewProductPage = new AddNewProductPage(this);
         }
 
         public void Quit()

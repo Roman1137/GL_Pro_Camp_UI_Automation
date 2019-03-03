@@ -16,6 +16,13 @@ namespace GL_Pro_Camp_UI_Automation.pages
             App.Wait.Until(dr => dr.FindElement(By.CssSelector(this.LogoutButonLocator)));
         }
 
+        public void GoToCatalogTab()
+        {
+            this.WaitUntilLoaded();
+            var catalogTab = this.MenuItemsElements.First(el => el.Text.Contains("Catalog"));
+            catalogTab.Click();
+        }
+
         public bool IsHeaderPresent()
         {
             var elementsCount = Driver.FindElements(By.CssSelector(this.HeaderLocator)).Count;
