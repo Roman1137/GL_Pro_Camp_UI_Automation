@@ -1,26 +1,35 @@
 ﻿using System;
+using GL_Pro_Camp_UI_Automation.pages;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.Events;
+using OpenQA.Selenium.Support.UI;
 
 namespace GL_Pro_Camp_UI_Automation.app
 {
     public class Application
     {
-        public EventFiringWebDriver driver { get; }
+        public EventFiringWebDriver Driver { get; set; }
+        public WebDriverWait Wait { get; set; }
         public ConfigManager ConfigManager { get; set; }
+
+        public AdminLoginPage AdminLoginPage { get; set; }
+        public AdminMainPage AdminMainPage { get; set; }
 
         public Application()
         {
+            this.Driver = new EventFiringWebDriver(new ChromeDriver());
+            this.Driver.Manage().Window.Maximize();
+            this.Wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(10));
+
             this.ConfigManager = new ConfigManager();
-
-            this.driver = new EventFiringWebDriver(new ChromeDriver());
-            this.driver.Manage().Window.Maximize();
-
-
+    
             this.InitializeWebdriverEvents();
+
+            this.AdminLoginPage = new AdminLoginPage(this);
+            this.AdminMainPage = new AdminMainPage(this);
         }
 
         public void Quit()
@@ -31,10 +40,10 @@ namespace GL_Pro_Camp_UI_Automation.app
                 this.TakeScreenShot();
             }
 
-            driver.Close();
-            driver.Quit();
-            driver.Dispose();
-            driver = null;
+            Driver.Close();
+            Driver.Quit();
+            Driver.Dispose();
+            Driver = null;
         }
 
         private void TakeScreenShot()
@@ -44,7 +53,7 @@ namespace GL_Pro_Camp_UI_Automation.app
                            TestContext.CurrentContext.Test.FullName + "." + ScreenshotImageFormat.Jpeg;
             try
             {
-                ((ITakesScreenshot)driver).GetScreenshot().SaveAsFile(fileName, ScreenshotImageFormat.Jpeg);
+                ((ITakesScreenshot)Driver).GetScreenshot().SaveAsFile(fileName, ScreenshotImageFormat.Jpeg);
                 TestContext.AddTestAttachment(fileName);
             }
             catch (Exception e)
@@ -55,12 +64,12 @@ namespace GL_Pro_Camp_UI_Automation.app
 
         private void InitializeWebdriverEvents()
         {
-            driver.FindingElement += (sender, args) => Console.WriteLine($"Looking for elemet {args.FindMethod}");
-            driver.FindElementCompleted += (sender, args) => Console.WriteLine($"Element {args.FindMethod} was found");
-            driver.ElementClicking += (sender, args) => Console.WriteLine($"Clicking element {args.Element}");
-            driver.ElementClicked += (sender, args) => Console.WriteLine($"Element {args.Element} was clicked");
-            driver.Navigating += (sender, args) => Console.WriteLine($"Navigating to {args.Url}");
-            driver.Navigated += (sender, args) => Console.WriteLine($"Navigated to {args.Url}");
+            Driver.FindingElement += (sender, args) => Console.WriteLine($"Looking for elemet {args.FindMethod}");
+            Driver.FindElementCompleted += (sender, args) => Console.WriteLine($"Element {args.FindMethod} was found");
+            Driver.ElementClicking += (sender, args) => Console.WriteLine($"Clicking element {args.Element}");
+            Driver.ElementClicked += (sender, args) => Console.WriteLine($"Element {args.Element} was clicked");
+            Driver.Navigating += (sender, args) => Console.WriteLine($"Navigating to {args.Url}");
+            Driver.Navigated += (sender, args) => Console.WriteLine($"Navigated to {args.Url}");
         }
     }
 }

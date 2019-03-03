@@ -1,22 +1,33 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
+﻿using GL_Pro_Camp_UI_Automation.app;
+using OpenQA.Selenium;
 
 namespace GL_Pro_Camp_UI_Automation.pages
 {
-    public class AdminLoginPage
+    public class AdminLoginPage: BasePage
     {
-        private string login;
-        private string password;
-        public AdminLoginPage()
-        {
-            Configuration configManager = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            KeyValueConfigurationCollection confCollection = configManager.AppSettings.Settings;
-            //this.login = confCollection.[]
+        public AdminLoginPage(Application app) : base(app) { }
 
-        }
         public void Login()
         {
-
+            this.UsernameElement.SendKeys(App.ConfigManager.Login);
+            this.PasswordElement.SendKeys(App.ConfigManager.Password);
+            this.LoginButtonElement.Click();
         }
+
+        public AdminLoginPage Open()
+        {
+            Driver.Url = App.ConfigManager.BaseUrl;
+            return this;
+        }
+
+        // locators
+        private string UsernameLocator => "[data-type=text]";
+        private string PasswordLocator => "[data-type=password]";
+        private string LoginButtonLocator => "[name=login]";
+
+        // webelements
+        private IWebElement UsernameElement => Driver.FindElement(By.CssSelector(this.UsernameLocator));
+        private IWebElement PasswordElement => Driver.FindElement(By.CssSelector(this.PasswordLocator));
+        private IWebElement LoginButtonElement => Driver.FindElement(By.CssSelector(this.LoginButtonLocator));
     }
 }

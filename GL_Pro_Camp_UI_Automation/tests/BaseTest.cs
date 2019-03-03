@@ -5,18 +5,18 @@ namespace GL_Pro_Camp_UI_Automation.tests
 {
     public class BaseTest
     {
-        public Application app;
+        protected Application App { get; set; }
 
         [SetUp]
         public void SetUp()
         {
-            this.app = new Application();
+            this.App = new Application();
         }
 
         [TearDown]
         public void Quit()
         {
-            this.app.Quit();
+            this.App.Quit();
         }
     }
 }
