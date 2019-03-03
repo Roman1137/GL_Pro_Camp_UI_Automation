@@ -10,7 +10,6 @@ namespace GL_Pro_Camp_UI_Automation.tests
         public void Verify_H1_Is_Present_At_Each_Menu_Item_And_SubItem()
         {
             App.AdminLoginPage.Open().Login();
-            App.AdminMainPage.WaitUntilLoaded();
 
             var menuItemsCount = App.AdminMainPage.GetMenuItemsCount();
             for (int menuItemIndex = 0; menuItemIndex < menuItemsCount; menuItemIndex++)

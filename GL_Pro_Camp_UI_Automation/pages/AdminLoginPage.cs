@@ -5,6 +5,7 @@ namespace GL_Pro_Camp_UI_Automation.pages
 {
     public class AdminLoginPage: BasePage
     {
+        private string Urn { get; } = "admin";
         public AdminLoginPage(Application app) : base(app) { }
 
         public void Login()
@@ -16,7 +17,7 @@ namespace GL_Pro_Camp_UI_Automation.pages
 
         public AdminLoginPage Open()
         {
-            Driver.Url = App.ConfigManager.BaseUrl;
+            Driver.Url = App.ConfigManager.BaseUrl + this.Urn;
             return this;
         }
 

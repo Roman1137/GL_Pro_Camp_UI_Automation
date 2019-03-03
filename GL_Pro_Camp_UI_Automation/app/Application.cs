@@ -17,6 +17,10 @@ namespace GL_Pro_Camp_UI_Automation.app
 
         public AdminLoginPage AdminLoginPage { get; set; }
         public AdminMainPage AdminMainPage { get; set; }
+        public CartPage CartPage { get; set; }
+        public ProductPage ProductPage { get; set; }
+        public UsersMainPage UsersMainPage { get; set; }
+        public CartTab CartTab { get; set; }
 
         public Application()
         {
@@ -27,9 +31,17 @@ namespace GL_Pro_Camp_UI_Automation.app
             this.ConfigManager = new ConfigManager();
     
             this.InitializeWebdriverEvents();
+            this.InitializePages();
+        }
 
+        private void InitializePages()
+        {
             this.AdminLoginPage = new AdminLoginPage(this);
             this.AdminMainPage = new AdminMainPage(this);
+            this.CartPage = new CartPage(this);
+            this.ProductPage = new ProductPage(this);
+            this.UsersMainPage = new UsersMainPage(this);
+            this.CartTab = new CartTab(this);
         }
 
         public void Quit()

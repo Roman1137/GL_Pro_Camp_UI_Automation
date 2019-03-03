@@ -11,7 +11,7 @@ namespace GL_Pro_Camp_UI_Automation.pages
         {
         }
 
-        public void WaitUntilLoaded()
+        private void WaitUntilLoaded()
         {
             App.Wait.Until(dr => dr.FindElement(By.CssSelector(this.LogoutButonLocator)));
         }
@@ -24,6 +24,7 @@ namespace GL_Pro_Camp_UI_Automation.pages
 
         public int GetMenuItemsCount()
         {
+            this.WaitUntilLoaded();
             return this.MenuItemsElements.Count;
         }
 
