@@ -6,6 +6,7 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.Events;
 using OpenQA.Selenium.Support.UI;
 
@@ -28,6 +29,10 @@ namespace GL_Pro_Camp_UI_Automation.app
 
         public Application()
         {
+            //var capabilities = new DesiredCapabilities("chrome", "71.0", new Platform(PlatformType.Any));
+            //capabilities.SetCapability("enableVNC", true);
+            //var driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), capabilities);
+            //this.Driver = new EventFiringWebDriver(driver);
             this.Driver = new EventFiringWebDriver(new ChromeDriver());
             this.Driver.Manage().Window.Maximize();
             this.Wait = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(10));
