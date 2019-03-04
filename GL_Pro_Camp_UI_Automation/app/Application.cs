@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using GL_Pro_Camp_UI_Automation.pages;
 using GL_Pro_Camp_UI_Automation.pages.addNewProduct;
 using NUnit.Framework;
@@ -81,12 +82,76 @@ namespace GL_Pro_Camp_UI_Automation.app
 
         private void InitializeWebdriverEvents()
         {
-            Driver.FindingElement += (sender, args) => Console.WriteLine($"Looking for elemet {args.FindMethod}");
-            Driver.FindElementCompleted += (sender, args) => Console.WriteLine($"Element {args.FindMethod} was found");
-            Driver.ElementClicking += (sender, args) => Console.WriteLine($"Clicking element {args.Element}");
-            Driver.ElementClicked += (sender, args) => Console.WriteLine($"Element {args.Element} was clicked");
+            Driver.FindingElement += (sender, args) =>
+            {
+                Console.WriteLine($"Looking for elemet {args.FindMethod}");
+                Highlight(args.Element, "red", Driver);
+            };
+            Driver.FindElementCompleted += (sender, args) =>
+            {
+                Highlight(args.Element, "green", Driver);
+                Console.WriteLine($"Element {args.FindMethod} was found");
+            };
+            Driver.ElementClicking += (sender, args) =>
+            {
+                Console.WriteLine($"Clicking element {args.Element}");
+                Highlight(args.Element, "orange", Driver);
+            };
+            Driver.ElementValueChanging += (sender, args) =>
+            {
+                Console.WriteLine($"Clicking element {args.Element}");
+                Highlight(args.Element, "orange", Driver);
+            };
+            Driver.ElementValueChanged += (sender, args) =>
+            {
+                Highlight(args.Element, "orange", Driver);
+                Console.WriteLine($"Element {args.Element} was clicked");
+            };
             Driver.Navigating += (sender, args) => Console.WriteLine($"Navigating to {args.Url}");
             Driver.Navigated += (sender, args) => Console.WriteLine($"Navigated to {args.Url}");
+        }
+
+        public static T Highlight<T>(T element, string color, IWebDriver driver) where T: IWebElement
+        {
+            if (element != null && element.GetAttribute("__selenideHighlighting") == null)
+            {
+                for (int i = 1; i < 4; i++)
+                {
+                    Transform(element, color, i, driver);
+                    try
+                    {
+                        Thread.Sleep(50);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+                for (int i = 4; i > 0; i--)
+                {
+                    Transform(element, color, i, driver);
+                    try
+                    {
+                        Thread.Sleep(50);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+            }
+            return element;
+        }
+
+        private static void Transform(IWebElement element, string color, int i, IWebDriver driver)
+        {
+            ((IJavaScriptExecutor)driver).ExecuteScript(
+                "arguments[0].setAttribute('__selenideHighlighting', 'done'); " +
+                "arguments[0].setAttribute(arguments[1], arguments[2])",
+                element,
+                "style",
+                "border: " + i + "px solid " + color + "; border-style: dotted; " +
+                "transform: scale(1, 1." + i + ");");
         }
     }
 }
